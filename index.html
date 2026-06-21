@@ -453,53 +453,34 @@
     document.getElementById('rsvpForm').style.display='none';
     document.getElementById('loadingSpinner').classList.add('show');
 
-    // Prepare email data
-    const emailData = {
-      to: 'yoshna_mauritius@hotmail.com',
-      subject: `RSVP: ${childName} for Inaaya's Disco Party`,
-      body: `
-New RSVP Received!
-
-Child's Name: ${childName}
-Contact Number: ${contact}
-Dietary Requirements & Allergies: ${dietary || 'None specified'}
-
-Party Details:
-- Date: 25th July 2026
-- Time: 10:00 AM - 11:30 AM
-- Location: Croc's Playcentre Craigieburn, 24 Riley Road, Craigieburn VIC 3064
-      `
-    };
-
-    // Send email via FormSubmit (free email service)
     fetch('https://formspree.io/f/meoqqeqr', {
       method: 'POST',
       headers: {
+        'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        'Child Name': childName,
-        'Contact Number': contact,
-        'Dietary Requirements': dietary || 'None specified',
-        'Email': 'yoshna_mauritius@hotmail.com'
+        childName: childName,
+        contact: contact,
+        dietary: dietary || 'None specified',
+        _subject: `RSVP: ${childName} for Inaaya\'s Disco Party`
       })
     })
-    .then(response => {
+    .then(async response => {
       if(response.ok){
-        // Show success message
         document.getElementById('loadingSpinner').classList.remove('show');
         document.getElementById('successMessage').classList.add('show');
         
-        // Close modal after 2 seconds
         setTimeout(() => {
           closeRsvpModal();
         }, 2000);
       } else {
-        throw new Error('Failed to send RSVP');
+        const errorText = await response.text();
+        throw new Error(errorText || 'Failed to send RSVP');
       }
     })
     .catch(error => {
-      console.error('Error:', error);
+      console.error('RSVP error:', error);
       document.getElementById('loadingSpinner').classList.remove('show');
       alert('There was an error sending your RSVP. Please try again or contact Yanushka at 0425 441 712');
       document.getElementById('rsvpForm').style.display='block';
