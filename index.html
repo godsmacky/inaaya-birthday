@@ -17,6 +17,7 @@
     --cyan:#21e6ff;
     --gold:#ffd35c;
     --lime:#8dff6b;
+    --orange:#ff8a3c;
     --ink:#3a1d52;
     --card:#fffaf3;
   }
@@ -24,7 +25,6 @@
   *{box-sizing:border-box;margin:0;padding:0;
      -webkit-print-color-adjust:exact;print-color-adjust:exact}
 
-  /* exact A5 page for printing */
   @page{size:148mm 210mm;margin:0}
 
   html,body{height:100%}
@@ -40,9 +40,9 @@
     align-items:center;
     justify-content:center;
     padding:40px 18px;
+    overflow-x:hidden;
   }
 
-  /* ---------- CARD ---------- */
   .card{
     position:relative;
     width:min(620px,100%);
@@ -54,25 +54,74 @@
       radial-gradient(140% 120% at 50% 100%, #ff2e9a 0%, transparent 48%),
       linear-gradient(170deg,#3a0d66 0%,#5a1499 38%,#7d1bb0 64%,#b81f8e 100%);
     box-shadow:0 40px 90px -25px rgba(120,10,90,.65),
-               0 0 0 1px rgba(255,255,255,.06) inset;
+               0 0 0 1px rgba(255,255,255,.06) inset,
+               0 0 35px rgba(33,230,255,.22),
+               0 0 55px rgba(255,46,154,.18);
     isolation:isolate;
     color:#fff;
+    animation:cardPulse 4s ease-in-out infinite;
   }
 
-  /* sparkle starfield */
-  .stars{position:absolute;inset:0;z-index:0;pointer-events:none}
-  .star{position:absolute;border-radius:50%;background:#fff;
-    box-shadow:0 0 8px 1px rgba(255,255,255,.8);
-    animation:tw 3.5s ease-in-out infinite}
-  @keyframes tw{0%,100%{opacity:.15;transform:scale(.6)}50%{opacity:1;transform:scale(1.15)}}
+  .card::before{
+    content:"";
+    position:absolute;
+    inset:-2px;
+    border-radius:36px;
+    padding:2px;
+    background:linear-gradient(120deg,var(--cyan),var(--magenta),var(--gold),var(--lime),var(--cyan));
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;
+            mask-composite:exclude;
+    opacity:.75;
+    z-index:20;
+    pointer-events:none;
+    animation:borderGlow 6s linear infinite;
+  }
 
-  /* light beams from the mirror ball */
+  @keyframes cardPulse{
+    0%,100%{transform:translateY(0);box-shadow:0 40px 90px -25px rgba(120,10,90,.65),0 0 0 1px rgba(255,255,255,.06) inset,0 0 35px rgba(33,230,255,.22),0 0 55px rgba(255,46,154,.18)}
+    50%{transform:translateY(-2px);box-shadow:0 48px 110px -25px rgba(120,10,90,.72),0 0 0 1px rgba(255,255,255,.06) inset,0 0 50px rgba(33,230,255,.3),0 0 70px rgba(255,46,154,.25)}
+  }
+
+  @keyframes borderGlow{
+    0%{filter:hue-rotate(0deg)}
+    100%{filter:hue-rotate(360deg)}
+  }
+
+  .stars,.sparkles,.confetti{position:absolute;inset:0;pointer-events:none}
+  .stars{z-index:0}
+  .sparkles{z-index:2}
+  .confetti{z-index:19;overflow:hidden}
+
+  .star,.sparkle{position:absolute;border-radius:50%;background:#fff}
+  .star{
+    box-shadow:0 0 8px 1px rgba(255,255,255,.8);
+    animation:tw 3.5s ease-in-out infinite
+  }
+  .sparkle{
+    width:4px;height:4px;
+    background:radial-gradient(circle,var(--gold) 0%,#fff 55%,transparent 70%);
+    box-shadow:0 0 12px rgba(255,255,255,.85),0 0 18px rgba(255,211,92,.7);
+    animation:sparkleBlink 2.8s ease-in-out infinite;
+  }
+  @keyframes tw{0%,100%{opacity:.15;transform:scale(.6)}50%{opacity:1;transform:scale(1.15)}}
+  @keyframes sparkleBlink{0%,100%{opacity:.25;transform:scale(.7) rotate(0deg)}50%{opacity:1;transform:scale(1.5) rotate(180deg)}}
+
+  .light-orb{
+    position:absolute;border-radius:50%;filter:blur(10px);opacity:.35;pointer-events:none;z-index:1;
+    animation:orbFloat 8s ease-in-out infinite;
+  }
+  .light-orb.one{width:120px;height:120px;top:16%;left:8%;background:var(--cyan)}
+  .light-orb.two{width:150px;height:150px;top:20%;right:6%;background:var(--magenta);animation-delay:1.8s}
+  .light-orb.three{width:110px;height:110px;bottom:16%;left:12%;background:var(--gold);animation-delay:3s}
+  @keyframes orbFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-12px) scale(1.08)}}
+
   .beams{position:absolute;top:-4%;left:50%;transform:translateX(-50%);
     width:160%;height:78%;z-index:1;pointer-events:none;
-    mix-blend-mode:screen;opacity:.55;
+    mix-blend-mode:screen;opacity:.7;
     -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 55%,transparent 100%);
             mask-image:linear-gradient(180deg,#000 0%,#000 55%,transparent 100%);
-    animation:spin 26s linear infinite}
+    animation:spinSlow 26s linear infinite}
   .beams::before,.beams::after{content:"";position:absolute;inset:0}
   .beams::before{
     background:
@@ -95,13 +144,45 @@
         transparent 360deg);
     opacity:.7;
   }
-  @keyframes spin{to{transform:translateX(-50%) rotate(360deg)}}
+  @keyframes spinSlow{to{transform:translateX(-50%) rotate(360deg)}}
 
-  /* bunting */
+  .dancefloor{
+    position:absolute;
+    left:50%;
+    bottom:7.5%;
+    transform:translateX(-50%);
+    width:74%;
+    height:58px;
+    border-radius:18px;
+    z-index:7;
+    opacity:.7;
+    background:
+      linear-gradient(90deg,
+        rgba(255,46,154,.95) 0 12.5%, rgba(33,230,255,.95) 12.5% 25%, rgba(255,211,92,.95) 25% 37.5%, rgba(141,255,107,.95) 37.5% 50%,
+        rgba(255,123,196,.95) 50% 62.5%, rgba(255,138,60,.95) 62.5% 75%, rgba(33,230,255,.95) 75% 87.5%, rgba(255,46,154,.95) 87.5% 100%),
+      linear-gradient(180deg,rgba(255,255,255,.25),rgba(255,255,255,.05));
+    box-shadow:0 0 18px rgba(255,255,255,.18),0 0 34px rgba(33,230,255,.18);
+    overflow:hidden;
+  }
+  .dancefloor::before{
+    content:"";
+    position:absolute;inset:0;
+    background:repeating-linear-gradient(90deg,rgba(255,255,255,.18) 0 2px,transparent 2px 34px),
+               repeating-linear-gradient(180deg,rgba(255,255,255,.18) 0 2px,transparent 2px 29px);
+    mix-blend-mode:screen;
+  }
+  .dancefloor::after{
+    content:"";
+    position:absolute;inset:0;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);
+    transform:translateX(-100%);
+    animation:danceSweep 2.8s linear infinite;
+  }
+  @keyframes danceSweep{to{transform:translateX(100%)}}
+
   .bunting{position:absolute;top:0;left:0;width:100%;z-index:5}
   .bunting svg{display:block;width:100%}
 
-  /* ---------- MIRROR BALL ---------- */
   .ball-wrap{position:absolute;top:5.5%;left:50%;transform:translateX(-50%);
     z-index:6;display:flex;flex-direction:column;align-items:center}
   .string{width:3px;height:26px;background:linear-gradient(#ffffffcc,#ffffff22)}
@@ -114,7 +195,7 @@
     overflow:hidden;
     animation:bob 5s ease-in-out infinite;
   }
-  .ball::before{ /* facet grid */
+  .ball::before{
     content:"";position:absolute;inset:0;border-radius:50%;
     background-image:
       repeating-linear-gradient(0deg, rgba(255,255,255,.35) 0 1px, transparent 1px 17px),
@@ -122,7 +203,7 @@
       radial-gradient(circle at 30% 26%, rgba(255,255,255,.9), transparent 40%);
     mix-blend-mode:overlay;
   }
-  .ball::after{ /* coloured tile glints */
+  .ball::after{
     content:"";position:absolute;inset:0;border-radius:50%;
     background-image:
       radial-gradient(8px 8px at 24% 60%, var(--magenta) 60%, transparent 62%),
@@ -137,7 +218,6 @@
   @keyframes glint{50%{opacity:.35}}
   @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
 
-  /* ---------- TITLE ---------- */
   .title{position:absolute;top:24.5%;left:0;width:100%;text-align:center;z-index:6}
   .title h1{
     font-family:'Lilita One',cursive;
@@ -154,21 +234,23 @@
       0 8px 14px rgba(0,0,0,.4);
   }
   .title .disco{display:block;
-    background:linear-gradient(180deg,#fff 0%,#ffe3f4 55%,#ffd35c 100%);
+    background:linear-gradient(180deg,#fff 0%,#ffe3f4 45%,#ffd35c 100%);
     -webkit-background-clip:text;background-clip:text;color:transparent;
     filter:drop-shadow(0 3px 0 #c21e8f);
+    animation:titleGlow 2.6s ease-in-out infinite;
   }
   .title .party{display:block;font-size:.78em;margin-top:2px;
     color:#21e6ff;
     text-shadow:0 0 16px rgba(33,230,255,.9),0 4px 0 #0c7e96,0 7px 12px rgba(0,0,0,.4);
+    animation:titleGlow 2.2s ease-in-out infinite reverse;
   }
+  @keyframes titleGlow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.25)}}
 
-  /* ---------- INFO BADGES ---------- */
   .badge{position:absolute;z-index:9;width:104px;height:104px;border-radius:50%;
     display:flex;align-items:center;justify-content:center;text-align:center;
     font-family:'Fredoka',sans-serif;font-weight:700;line-height:1.05;
     text-transform:uppercase;
-    box-shadow:0 10px 24px -8px rgba(0,0,0,.5), inset 0 0 0 4px rgba(255,255,255,.35);
+    box-shadow:0 10px 24px -8px rgba(0,0,0,.5), inset 0 0 0 4px rgba(255,255,255,.35),0 0 20px rgba(255,255,255,.14);
     animation:floaty 6s ease-in-out infinite;
   }
   .badge span{font-size:11.5px;letter-spacing:.2px;padding:6px}
@@ -179,15 +261,15 @@
   .badge.socks span small{font-size:10px;display:block;font-weight:600;opacity:.9;margin-top:2px}
   @keyframes floaty{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-9px) rotate(2deg)}}
 
-  /* ---------- DETAILS CARD ---------- */
   .panel{position:absolute;left:50%;bottom:11.5%;transform:translateX(-50%);
     width:84%;z-index:8;
-    background:var(--card);
+    background:rgba(255,250,243,.94);
+    backdrop-filter:blur(6px);
     border-radius:30px;
     padding:30px 30px 26px;
     color:var(--ink);
     box-shadow:0 24px 50px -18px rgba(60,0,60,.6),inset 0 0 0 2px #fff,
-               inset 0 0 0 6px #ffe0f1;
+               inset 0 0 0 6px #ffe0f1,0 0 20px rgba(255,255,255,.28);
   }
   .panel .invited{font-family:'Fredoka',sans-serif;font-weight:600;
     text-align:center;font-size:clamp(17px,3.4vw,21px);color:#b3128a;margin-bottom:14px}
@@ -208,14 +290,35 @@
     color:#6a2fa0;margin:16px 0 8px;font-size:clamp(14px,3vw,17px)}
 
   .rsvp .val{color:#0c8fb0}
-  .rsvp-by{text-align:center;margin-top:14px}
-  .rsvp-by .pill{display:inline-block;font-family:'Fredoka',sans-serif;font-weight:700;
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:16px}
+  .pill,.music-btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    font-family:'Fredoka',sans-serif;font-weight:700;
+    padding:11px 22px;border-radius:999px;font-size:clamp(14px,3.2vw,17px);
+    cursor:pointer;border:none;transition:transform 0.2s,opacity 0.2s,box-shadow 0.2s;
+    text-decoration:none;
+  }
+  .pill{
     background:linear-gradient(90deg,var(--magenta),#ff6f3c);color:#fff;
-    padding:9px 22px;border-radius:999px;font-size:clamp(14px,3.2vw,17px);
-    box-shadow:0 8px 18px -6px rgba(255,46,154,.6);cursor:pointer;border:none;transition:transform 0.2s}
-  .rsvp-by .pill:hover{transform:scale(1.05)}
+    box-shadow:0 8px 18px -6px rgba(255,46,154,.6),0 0 18px rgba(255,46,154,.35);
+    animation:ctaPulse 1.8s ease-in-out infinite;
+  }
+  .pill:hover,.music-btn:hover{transform:scale(1.06)}
+  .music-btn{
+    background:linear-gradient(90deg,var(--cyan),#3d8bff);color:#062a4a;
+    box-shadow:0 8px 18px -6px rgba(33,230,255,.55),0 0 18px rgba(33,230,255,.3);
+  }
+  @keyframes ctaPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
 
-  /* ---------- FOOTER ---------- */
+  .click-rsvp-note{
+    text-align:center;
+    margin-top:10px;
+    color:#b3128a;
+    font-family:'Fredoka',sans-serif;
+    font-size:13px;
+    letter-spacing:.3px;
+  }
+
   .footer{position:absolute;bottom:3.2%;left:0;width:100%;text-align:center;z-index:8;color:#fff}
   .footer .croc{display:inline-flex;align-items:center;gap:10px;justify-content:center}
   .footer .croc .mark{width:34px;height:34px;border-radius:50%;
@@ -229,7 +332,6 @@
   .footer .tbc{font-family:'Fredoka',sans-serif;font-weight:600;font-size:12px;
     letter-spacing:2px;opacity:.8;margin-top:3px}
 
-  /* balloons floating low corners */
   .balloon{position:absolute;bottom:2%;width:54px;height:66px;border-radius:50% 50% 48% 48%;z-index:7;
     box-shadow:inset -8px -10px 16px rgba(0,0,0,.18);animation:floaty 7s ease-in-out infinite}
   .balloon::after{content:"";position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);
@@ -237,7 +339,6 @@
   .balloon.l{left:4%;background:radial-gradient(circle at 32% 26%,#ff9ecb,#ff2e9a);color:#ff2e9a}
   .balloon.r{right:4%;background:radial-gradient(circle at 32% 26%,#9ff0ff,#21e6ff);color:#21e6ff;animation-delay:1.5s}
 
-  /* ---------- MODAL ---------- */
   .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;
     background:rgba(0,0,0,.8);z-index:1000;align-items:center;justify-content:center;
     padding:20px;font-family:'Nunito',sans-serif}
@@ -272,38 +373,48 @@
   .loading{display:none;text-align:center}
   .loading.show{display:block}
   .spinner{border:4px solid #f3f3f3;border-top:4px solid var(--magenta);
-    border-radius:50%;width:30px;height:30px;animation:spin 1s linear infinite;
+    border-radius:50%;width:30px;height:30px;animation:spinFast 1s linear infinite;
     margin:0 auto 10px}
-  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes spinFast{to{transform:rotate(360deg)}}
+
+  @media (max-width: 640px){
+    body{padding:18px 10px}
+    .card{aspect-ratio:auto;min-height:900px}
+    .panel{width:88%;bottom:12.5%;padding:24px 22px 22px}
+    .dancefloor{width:80%;height:48px;bottom:8.5%}
+    .cta-row{flex-direction:column;align-items:center}
+    .pill,.music-btn{width:100%}
+  }
 
   @media (prefers-reduced-motion: reduce){
     *{animation:none !important}
   }
 
-  /* print */
   @media print{
     html,body{height:auto;background:#fff;padding:0;margin:0}
     body{display:block}
     .card{
       width:148mm;height:210mm;aspect-ratio:auto;
       border-radius:0;box-shadow:none;
-      page-break-after:avoid;break-inside:avoid;
     }
     *{animation:none !important}
-    .rsvp-by .pill{pointer-events:none}
+    .pill,.music-btn{pointer-events:none}
   }
 </style>
 </head>
 <body>
   <div class="card">
 
-    <!-- starfield -->
     <div class="stars" id="stars"></div>
+    <div class="sparkles" id="sparkles"></div>
+    <div class="confetti" id="confetti"></div>
 
-    <!-- spinning light beams -->
+    <div class="light-orb one"></div>
+    <div class="light-orb two"></div>
+    <div class="light-orb three"></div>
+
     <div class="beams"></div>
 
-    <!-- bunting -->
     <div class="bunting">
       <svg viewBox="0 0 1040 120" preserveAspectRatio="none" aria-hidden="true">
         <path d="M0,8 Q520,70 1040,8" stroke="rgba(255,255,255,.5)" stroke-width="3" fill="none"/>
@@ -311,13 +422,11 @@
       </svg>
     </div>
 
-    <!-- mirror ball -->
     <div class="ball-wrap">
       <div class="string"></div>
       <div class="ball"></div>
     </div>
 
-    <!-- title -->
     <div class="title">
       <h1>
         <span class="disco">Disco</span>
@@ -325,11 +434,9 @@
       </h1>
     </div>
 
-    <!-- info badges -->
     <div class="badge food"><span>Food &amp;<br>Drinks<br>Provided</span></div>
     <div class="badge socks"><span>Socks<br>must be<br>worn<small>on play equipment</small></span></div>
 
-    <!-- details panel -->
     <div class="panel">
       <p class="invited">You're invited to a party!</p>
 
@@ -342,23 +449,31 @@
       <p class="celebrate">We would love for you to celebrate with us</p>
 
       <div class="row rsvp"><span class="lab">RSVP</span><span class="val">Yanushka · 0425 441 712</span></div>
-      <div class="rsvp-by"><span class="pill" onclick="openRsvpModal()">RSVP by 05 / 07 / 2026</span></div>
+
+      <div class="cta-row">
+        <button class="pill" type="button" onclick="openRsvpModal()">✨ Click to RSVP</button>
+        <button class="music-btn" type="button" id="musicToggle" onclick="toggleMusic()">🎵 Play Disco Music</button>
+      </div>
+      <div class="click-rsvp-note">RSVP by 05 / 07 / 2026</div>
     </div>
 
-    <!-- footer -->
+    <div class="dancefloor"></div>
+
     <div class="footer">
       <div class="croc"><span class="mark">🐊</span><h2>Croc's Playcentre Craigieburn</h2></div>
       <p>24 Riley Road, Craigieburn VIC 3064</p>
       <p class="tbc">TBC</p>
     </div>
 
-    <!-- balloons -->
     <div class="balloon l"></div>
     <div class="balloon r"></div>
 
   </div>
 
-  <!-- RSVP Modal -->
+  <audio id="discoMusic" loop preload="none">
+    <source src="music/disco.mp3" type="audio/mpeg">
+  </audio>
+
   <div class="modal" id="rsvpModal">
     <div class="modal-content">
       <h2>🎉 RSVP for Inaaya's Party!</h2>
@@ -397,7 +512,6 @@
   </div>
 
 <script>
-  // starfield
   (function(){
     var s=document.getElementById('stars');
     for(var i=0;i<46;i++){
@@ -411,14 +525,43 @@
     }
   })();
 
-  // bunting flags
+  (function(){
+    var s=document.getElementById('sparkles');
+    for(var i=0;i<24;i++){
+      var d=document.createElement('div');d.className='sparkle';
+      d.style.left=Math.random()*100+'%';
+      d.style.top=(Math.random()*72)+'%';
+      d.style.animationDelay=(Math.random()*2.8)+'s';
+      s.appendChild(d);
+    }
+  })();
+
+  (function(){
+    var c=document.getElementById('confetti');
+    var cols=['#ff2e9a','#ffd35c','#21e6ff','#8dff6b','#ff7bc4','#ff8a3c'];
+    for(var i=0;i<18;i++){
+      var d=document.createElement('div');
+      d.style.position='absolute';
+      d.style.width='10px';
+      d.style.height='18px';
+      d.style.left=(Math.random()*100)+'%';
+      d.style.top=(Math.random()*18)+'%';
+      d.style.background=cols[i%cols.length];
+      d.style.opacity='.65';
+      d.style.borderRadius='3px';
+      d.style.transform='rotate('+(Math.random()*360)+'deg)';
+      d.style.boxShadow='0 0 10px rgba(255,255,255,.25)';
+      c.appendChild(d);
+    }
+  })();
+
   (function(){
     var g=document.getElementById('flags');
     var cols=['#ff2e9a','#ffd35c','#21e6ff','#8dff6b','#ff7bc4','#ff8a3c'];
     var n=16;
     for(var i=0;i<n;i++){
       var x=i*(1040/(n-1));
-      var y=8 + (1 - Math.abs((i-(n-1)/2)/((n-1)/2)))* -0 + Math.sin(i/(n-1)*Math.PI)*30;
+      var y=8 + Math.sin(i/(n-1)*Math.PI)*30;
       var p=document.createElementNS('http://www.w3.org/2000/svg','path');
       var w=30;
       p.setAttribute('d','M'+(x-w/2)+','+y+' L'+(x+w/2)+','+y+' L'+x+','+(y+34)+' Z');
@@ -429,7 +572,6 @@
     }
   })();
 
-  // RSVP Modal functions
   function openRsvpModal(){
     document.getElementById('rsvpModal').classList.add('active');
   }
@@ -442,6 +584,23 @@
     document.getElementById('loadingSpinner').classList.remove('show');
   }
 
+  async function toggleMusic(){
+    const audio=document.getElementById('discoMusic');
+    const btn=document.getElementById('musicToggle');
+    try{
+      if(audio.paused){
+        await audio.play();
+        btn.textContent='⏸ Pause Disco Music';
+      }else{
+        audio.pause();
+        btn.textContent='🎵 Play Disco Music';
+      }
+    }catch(error){
+      console.error('Music playback error:', error);
+      alert('Add your disco song at music/disco.mp3 to enable music.');
+    }
+  }
+
   function handleRsvpSubmit(event){
     event.preventDefault();
     
@@ -449,7 +608,6 @@
     const contact = document.getElementById('contact').value;
     const dietary = document.getElementById('dietary').value;
 
-    // Show loading state
     document.getElementById('rsvpForm').style.display='none';
     document.getElementById('loadingSpinner').classList.add('show');
 
@@ -487,7 +645,6 @@
     });
   }
 
-  // Close modal when clicking outside
   window.onclick = function(event) {
     const modal = document.getElementById('rsvpModal');
     if(event.target === modal) {
