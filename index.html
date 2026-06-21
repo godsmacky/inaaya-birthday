@@ -9,9 +9,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --indigo-1:#2b0b52;
-    --indigo-2:#4d1a86;
-    --purple:#7a35d8;
+    --violet:#5a1ecb;
+    --purple:#7f35f3;
     --magenta:#ff2e9a;
     --pink:#ff7bc4;
     --cyan:#21e6ff;
@@ -19,8 +18,9 @@
     --lime:#8dff6b;
     --orange:#ff9b45;
     --mint:#8ff5d2;
-    --ink:#48225f;
-    --card:#fffaf8;
+    --sky:#7ad7ff;
+    --ink:#4a2468;
+    --card:#fff9fc;
   }
 
   *{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -30,152 +30,174 @@
   body{
     font-family:'Nunito',sans-serif;
     background:
-      radial-gradient(1200px 700px at 50% -10%, #5c22a2 0%, transparent 60%),
-      radial-gradient(900px 600px at 100% 110%, #34105f 0%, transparent 55%),
-      linear-gradient(160deg,#25063f 0%,#43126f 50%,#2b0846 100%);
+      radial-gradient(1200px 700px at 50% -10%, #7b35dc 0%, transparent 60%),
+      radial-gradient(900px 600px at 100% 110%, #441072 0%, transparent 55%),
+      linear-gradient(160deg,#2b0744 0%,#4f1382 45%,#2d0746 100%);
     min-height:100%;
     display:flex;
     align-items:center;
     justify-content:center;
-    padding:32px 14px;
+    padding:24px 10px;
     overflow-x:hidden;
   }
 
   .card{
     position:relative;
-    width:min(680px,100%);
-    aspect-ratio:148/210;
-    border-radius:36px;
+    width:min(720px,100%);
+    min-height:980px;
+    border-radius:38px;
     overflow:hidden;
     background:
-      radial-gradient(120% 90% at 50% 0%, #8b37e5 0%, transparent 55%),
-      radial-gradient(140% 120% at 50% 100%, #ff4ab0 0%, transparent 48%),
-      linear-gradient(170deg,#4f1788 0%,#6c23b8 38%,#8b2fd6 64%,#ff4f9b 100%);
-    box-shadow:0 40px 90px -25px rgba(120,10,90,.65),0 0 0 1px rgba(255,255,255,.06) inset,0 0 35px rgba(33,230,255,.22),0 0 55px rgba(255,46,154,.18);
+      radial-gradient(120% 95% at 50% 0%, #9644ff 0%, transparent 52%),
+      radial-gradient(100% 90% at 15% 25%, rgba(33,230,255,.26) 0%, transparent 45%),
+      radial-gradient(110% 80% at 85% 20%, rgba(255,211,92,.24) 0%, transparent 42%),
+      radial-gradient(140% 120% at 50% 100%, #ff4ab0 0%, transparent 46%),
+      linear-gradient(170deg,#5b19a5 0%,#7b29d2 34%,#a535d6 62%,#ff4f9b 100%);
+    box-shadow:
+      0 46px 110px -25px rgba(120,10,90,.68),
+      0 0 0 1px rgba(255,255,255,.08) inset,
+      0 0 35px rgba(33,230,255,.25),
+      0 0 65px rgba(255,46,154,.24);
     isolation:isolate;
     color:#fff;
-    animation:cardPulse 4s ease-in-out infinite;
+    animation:cardFloat 4.5s ease-in-out infinite;
   }
 
   .card::before{
     content:"";
     position:absolute;
     inset:-2px;
-    border-radius:38px;
-    padding:2px;
-    background:linear-gradient(120deg,var(--cyan),var(--magenta),var(--gold),var(--lime),var(--orange),var(--cyan));
+    border-radius:40px;
+    padding:3px;
+    background:linear-gradient(120deg,var(--cyan),var(--magenta),var(--gold),var(--lime),var(--orange),var(--sky),var(--cyan));
     -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
     -webkit-mask-composite:xor;
             mask-composite:exclude;
-    opacity:.8;
-    z-index:30;
+    opacity:.9;
+    z-index:40;
     pointer-events:none;
-    animation:borderGlow 6s linear infinite;
+    animation:borderGlow 7s linear infinite;
   }
 
-  @keyframes cardPulse{
-    0%,100%{transform:translateY(0)}
-    50%{transform:translateY(-3px)}
+  .card::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:radial-gradient(circle at 50% 10%, rgba(255,255,255,.14), transparent 36%);
+    pointer-events:none;
+    z-index:1;
   }
+
+  @keyframes cardFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
   @keyframes borderGlow{0%{filter:hue-rotate(0deg)}100%{filter:hue-rotate(360deg)}}
 
-  .stars,.sparkles,.confetti{position:absolute;inset:0;pointer-events:none}
+  .stars,.sparkles,.confetti,.stickers,.notes{position:absolute;inset:0;pointer-events:none}
   .stars{z-index:0}
   .sparkles{z-index:2}
-  .confetti{z-index:19;overflow:hidden}
+  .confetti{z-index:3;overflow:hidden}
+  .stickers{z-index:15}
+  .notes{z-index:14}
 
   .star,.sparkle{position:absolute;border-radius:50%;background:#fff}
-  .star{box-shadow:0 0 8px 1px rgba(255,255,255,.8);animation:tw 3.5s ease-in-out infinite}
-  .sparkle{
-    width:5px;height:5px;
-    background:radial-gradient(circle,var(--gold) 0%,#fff 55%,transparent 70%);
-    box-shadow:0 0 12px rgba(255,255,255,.85),0 0 18px rgba(255,211,92,.7);
-    animation:sparkleBlink 2.8s ease-in-out infinite;
-  }
-  @keyframes tw{0%,100%{opacity:.15;transform:scale(.6)}50%{opacity:1;transform:scale(1.15)}}
-  @keyframes sparkleBlink{0%,100%{opacity:.25;transform:scale(.7) rotate(0deg)}50%{opacity:1;transform:scale(1.5) rotate(180deg)}}
+  .star{box-shadow:0 0 9px 1px rgba(255,255,255,.85);animation:twinkle 3.5s ease-in-out infinite}
+  .sparkle{width:6px;height:6px;background:radial-gradient(circle,var(--gold) 0%,#fff 58%,transparent 72%);box-shadow:0 0 14px rgba(255,255,255,.85),0 0 20px rgba(255,211,92,.78);animation:sparkleBlink 2.8s ease-in-out infinite}
+  @keyframes twinkle{0%,100%{opacity:.15;transform:scale(.6)}50%{opacity:1;transform:scale(1.18)}}
+  @keyframes sparkleBlink{0%,100%{opacity:.25;transform:scale(.7) rotate(0deg)}50%{opacity:1;transform:scale(1.55) rotate(180deg)}}
 
-  .light-orb{position:absolute;border-radius:50%;filter:blur(10px);opacity:.35;pointer-events:none;z-index:1;animation:orbFloat 8s ease-in-out infinite}
-  .light-orb.one{width:120px;height:120px;top:16%;left:8%;background:var(--cyan)}
-  .light-orb.two{width:150px;height:150px;top:20%;right:6%;background:var(--magenta);animation-delay:1.8s}
-  .light-orb.three{width:110px;height:110px;bottom:16%;left:12%;background:var(--gold);animation-delay:3s}
-  @keyframes orbFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-12px) scale(1.08)}}
+  .light-orb{position:absolute;border-radius:50%;filter:blur(12px);opacity:.36;pointer-events:none;z-index:1;animation:orbFloat 8s ease-in-out infinite}
+  .light-orb.one{width:140px;height:140px;top:16%;left:6%;background:var(--cyan)}
+  .light-orb.two{width:170px;height:170px;top:18%;right:4%;background:var(--magenta);animation-delay:1.7s}
+  .light-orb.three{width:120px;height:120px;bottom:18%;left:12%;background:var(--gold);animation-delay:3s}
+  .light-orb.four{width:130px;height:130px;bottom:22%;right:12%;background:var(--mint);animation-delay:2.4s}
+  @keyframes orbFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-14px) scale(1.08)}}
 
-  .beams{position:absolute;top:-4%;left:50%;transform:translateX(-50%);width:160%;height:78%;z-index:1;pointer-events:none;mix-blend-mode:screen;opacity:.72;-webkit-mask-image:linear-gradient(180deg,#000 0%,#000 55%,transparent 100%);mask-image:linear-gradient(180deg,#000 0%,#000 55%,transparent 100%);animation:spinSlow 26s linear infinite}
+  .rainbow-arc{position:absolute;top:-40px;left:50%;transform:translateX(-50%);width:88%;height:180px;border-radius:0 0 999px 999px;z-index:4;opacity:.42;background:conic-gradient(from 180deg at 50% 100%, var(--magenta), var(--orange), var(--gold), var(--lime), var(--cyan), var(--purple), var(--magenta));filter:blur(10px)}
+
+  .beams{position:absolute;top:-5%;left:50%;transform:translateX(-50%);width:170%;height:82%;z-index:1;pointer-events:none;mix-blend-mode:screen;opacity:.76;-webkit-mask-image:linear-gradient(180deg,#000 0%,#000 57%,transparent 100%);mask-image:linear-gradient(180deg,#000 0%,#000 57%,transparent 100%);animation:spinSlow 24s linear infinite}
   .beams::before,.beams::after{content:"";position:absolute;inset:0}
-  .beams::before{background:conic-gradient(from 0deg at 50% 6%,transparent 0deg,var(--cyan) 7deg,transparent 14deg,transparent 30deg,var(--magenta) 37deg,transparent 44deg,transparent 60deg,var(--gold) 67deg,transparent 74deg,transparent 90deg,var(--lime) 97deg,transparent 104deg,transparent 120deg,var(--pink) 127deg,transparent 134deg,transparent 150deg,var(--orange) 157deg,transparent 164deg,transparent 360deg)}
-  .beams::after{background:conic-gradient(from 180deg at 50% 6%,transparent 0deg,var(--gold) 7deg,transparent 14deg,transparent 30deg,var(--lime) 37deg,transparent 44deg,transparent 60deg,var(--magenta) 67deg,transparent 74deg,transparent 90deg,var(--cyan) 97deg,transparent 104deg,transparent 360deg);opacity:.7}
+  .beams::before{background:conic-gradient(from 0deg at 50% 8%,transparent 0deg,var(--cyan) 7deg,transparent 14deg,transparent 24deg,var(--magenta) 31deg,transparent 38deg,transparent 52deg,var(--gold) 59deg,transparent 66deg,transparent 80deg,var(--lime) 87deg,transparent 94deg,transparent 108deg,var(--pink) 115deg,transparent 122deg,transparent 136deg,var(--orange) 143deg,transparent 150deg,transparent 360deg)}
+  .beams::after{background:conic-gradient(from 180deg at 50% 8%,transparent 0deg,var(--gold) 7deg,transparent 14deg,transparent 28deg,var(--lime) 35deg,transparent 42deg,transparent 56deg,var(--magenta) 63deg,transparent 70deg,transparent 84deg,var(--cyan) 91deg,transparent 98deg,transparent 360deg);opacity:.72}
   @keyframes spinSlow{to{transform:translateX(-50%) rotate(360deg)}}
 
-  .dancefloor{position:absolute;left:50%;bottom:6.8%;transform:translateX(-50%);width:78%;height:64px;border-radius:20px;z-index:7;opacity:.82;background:linear-gradient(90deg,rgba(255,46,154,.95) 0 12.5%,rgba(33,230,255,.95) 12.5% 25%,rgba(255,211,92,.95) 25% 37.5%,rgba(141,255,107,.95) 37.5% 50%,rgba(255,123,196,.95) 50% 62.5%,rgba(255,155,69,.95) 62.5% 75%,rgba(143,245,210,.95) 75% 87.5%,rgba(255,46,154,.95) 87.5% 100%),linear-gradient(180deg,rgba(255,255,255,.25),rgba(255,255,255,.05));box-shadow:0 0 18px rgba(255,255,255,.18),0 0 34px rgba(33,230,255,.18);overflow:hidden}
-  .dancefloor::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.18) 0 2px,transparent 2px 34px),repeating-linear-gradient(180deg,rgba(255,255,255,.18) 0 2px,transparent 2px 29px);mix-blend-mode:screen}
-  .dancefloor::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);transform:translateX(-100%);animation:danceSweep 2.8s linear infinite}
-  @keyframes danceSweep{to{transform:translateX(100%)}}
-
-  .bunting{position:absolute;top:0;left:0;width:100%;z-index:5}
+  .bunting{position:absolute;top:0;left:0;width:100%;z-index:7}
   .bunting svg{display:block;width:100%}
 
-  .animal{position:absolute;z-index:14;display:flex;flex-direction:column;align-items:center;animation:dance 2.2s ease-in-out infinite;filter:drop-shadow(0 10px 12px rgba(0,0,0,.22))}
-  .animal .emoji{font-size:48px;line-height:1}
-  .animal .label{margin-top:4px;font-size:12px;font-family:'Fredoka',sans-serif;font-weight:700;background:rgba(255,255,255,.18);padding:4px 10px;border-radius:999px;backdrop-filter:blur(4px)}
-  .animal.kangaroo{left:7%;bottom:15%;animation-delay:0s}
-  .animal.koala{right:7%;bottom:15%;animation-delay:1s}
-  .animal.duck{left:16%;top:34%;animation-delay:.5s}
-  .animal.star{right:15%;top:34%;animation-delay:1.5s}
+  .sticker{position:absolute;font-size:34px;filter:drop-shadow(0 6px 8px rgba(0,0,0,.22));animation:wiggle 3.2s ease-in-out infinite}
+  .sticker.s1{top:110px;left:24px;animation-delay:.2s}
+  .sticker.s2{top:120px;right:26px;animation-delay:1.1s}
+  .sticker.s3{top:250px;left:34px;animation-delay:.8s}
+  .sticker.s4{top:280px;right:40px;animation-delay:1.8s}
+  .sticker.s5{bottom:220px;left:28px;animation-delay:1.4s}
+  .sticker.s6{bottom:236px;right:22px;animation-delay:.5s}
+  .sticker.s7{bottom:130px;left:130px;animation-delay:2s}
+  .sticker.s8{bottom:140px;right:135px;animation-delay:2.4s}
+  @keyframes wiggle{0%,100%{transform:rotate(-6deg) scale(1)}50%{transform:rotate(6deg) scale(1.08)}}
+
+  .animal{position:absolute;z-index:18;display:flex;flex-direction:column;align-items:center;animation:dance 2.15s ease-in-out infinite;filter:drop-shadow(0 10px 12px rgba(0,0,0,.22))}
+  .animal .emoji{font-size:54px;line-height:1}
+  .animal .label{margin-top:5px;font-size:12px;font-family:'Fredoka',sans-serif;font-weight:700;background:rgba(255,255,255,.22);padding:5px 12px;border-radius:999px;backdrop-filter:blur(4px)}
+  .animal.kangaroo{left:5%;bottom:170px;animation-delay:0s}
+  .animal.koala{right:5%;bottom:170px;animation-delay:1s}
+  .animal.unicorn{left:13%;top:350px;animation-delay:.55s}
+  .animal.bunny{right:12%;top:345px;animation-delay:1.5s}
   @keyframes dance{0%,100%{transform:translateY(0) rotate(-5deg) scale(1)}25%{transform:translateY(-10px) rotate(4deg) scale(1.05)}50%{transform:translateY(0) rotate(0deg) scale(1)}75%{transform:translateY(-8px) rotate(-4deg) scale(1.05)}}
 
-  .ball-wrap{position:absolute;top:5.5%;left:50%;transform:translateX(-50%);z-index:6;display:flex;flex-direction:column;align-items:center}
-  .string{width:3px;height:26px;background:linear-gradient(#ffffffcc,#ffffff22)}
-  .ball{position:relative;width:148px;height:148px;border-radius:50%;background:radial-gradient(circle at 32% 28%, #ffffff 0%, #e9f6ff 14%, #9fc7e8 42%, #5e83b8 70%, #2f3f73 100%);box-shadow:0 0 38px 6px rgba(120,210,255,.55),0 12px 30px -6px rgba(0,0,0,.5);overflow:hidden;animation:bob 5s ease-in-out infinite}
-  .ball::before{content:"";position:absolute;inset:0;border-radius:50%;background-image:repeating-linear-gradient(0deg, rgba(255,255,255,.35) 0 1px, transparent 1px 17px),repeating-linear-gradient(90deg, rgba(255,255,255,.35) 0 1px, transparent 1px 17px),radial-gradient(circle at 30% 26%, rgba(255,255,255,.9), transparent 40%);mix-blend-mode:overlay}
-  .ball::after{content:"";position:absolute;inset:0;border-radius:50%;background-image:radial-gradient(8px 8px at 24% 60%, var(--magenta) 60%, transparent 62%),radial-gradient(7px 7px at 62% 38%, var(--cyan) 60%, transparent 62%),radial-gradient(7px 7px at 74% 66%, var(--gold) 60%, transparent 62%),radial-gradient(6px 6px at 44% 78%, var(--lime) 60%, transparent 62%),radial-gradient(6px 6px at 50% 30%, var(--pink) 60%, transparent 62%),radial-gradient(6px 6px at 38% 46%, var(--gold) 60%, transparent 62%);mix-blend-mode:screen;opacity:.85;animation:glint 4s steps(8) infinite}
+  .ball-wrap{position:absolute;top:56px;left:50%;transform:translateX(-50%);z-index:10;display:flex;flex-direction:column;align-items:center}
+  .string{width:3px;height:28px;background:linear-gradient(#ffffffcc,#ffffff22)}
+  .ball{position:relative;width:154px;height:154px;border-radius:50%;background:radial-gradient(circle at 32% 28%, #ffffff 0%, #e9f6ff 14%, #9fc7e8 42%, #5e83b8 70%, #2f3f73 100%);box-shadow:0 0 42px 8px rgba(120,210,255,.62),0 12px 30px -6px rgba(0,0,0,.5);overflow:hidden;animation:bob 5s ease-in-out infinite}
+  .ball::before{content:"";position:absolute;inset:0;border-radius:50%;background-image:repeating-linear-gradient(0deg, rgba(255,255,255,.38) 0 1px, transparent 1px 17px),repeating-linear-gradient(90deg, rgba(255,255,255,.38) 0 1px, transparent 1px 17px),radial-gradient(circle at 30% 26%, rgba(255,255,255,.92), transparent 40%);mix-blend-mode:overlay}
+  .ball::after{content:"";position:absolute;inset:0;border-radius:50%;background-image:radial-gradient(8px 8px at 24% 60%, var(--magenta) 60%, transparent 62%),radial-gradient(7px 7px at 62% 38%, var(--cyan) 60%, transparent 62%),radial-gradient(7px 7px at 74% 66%, var(--gold) 60%, transparent 62%),radial-gradient(6px 6px at 44% 78%, var(--lime) 60%, transparent 62%),radial-gradient(6px 6px at 50% 30%, var(--pink) 60%, transparent 62%),radial-gradient(6px 6px at 38% 46%, var(--orange) 60%, transparent 62%);mix-blend-mode:screen;opacity:.88;animation:glint 4s steps(8) infinite}
   @keyframes glint{50%{opacity:.35}}
-  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
 
-  .title{position:absolute;top:23.5%;left:0;width:100%;text-align:center;z-index:6}
-  .title h1{font-family:'Lilita One',cursive;font-size:clamp(56px,12vw,92px);line-height:.9;letter-spacing:1px;color:#fff;text-transform:uppercase;transform:rotate(-3deg);text-shadow:0 0 18px rgba(255,46,154,.8),0 0 36px rgba(33,230,255,.55),0 4px 0 #b3128a,0 8px 14px rgba(0,0,0,.4)}
-  .title .disco{display:block;background:linear-gradient(180deg,#fff 0%,#ffe3f4 45%,#ffd35c 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 3px 0 #c21e8f);animation:titleGlow 2.6s ease-in-out infinite}
-  .title .party{display:block;font-size:.78em;margin-top:2px;color:#21e6ff;text-shadow:0 0 16px rgba(33,230,255,.9),0 4px 0 #0c7e96,0 7px 12px rgba(0,0,0,.4);animation:titleGlow 2.2s ease-in-out infinite reverse}
-  .subtitle{position:absolute;top:41.5%;width:100%;text-align:center;z-index:6;font-family:'Fredoka',sans-serif;font-size:20px;font-weight:700;color:#fff6b2;text-shadow:0 2px 8px rgba(0,0,0,.35)}
-  @keyframes titleGlow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.25)}}
+  .age-badge{position:absolute;top:164px;left:50%;transform:translateX(-50%) rotate(-7deg);z-index:11;width:132px;height:132px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 35% 28%, #fff2a3 0%, #ffd35c 55%, #ff9b45 100%);box-shadow:0 14px 24px rgba(0,0,0,.25), inset 0 0 0 6px rgba(255,255,255,.55), 0 0 30px rgba(255,211,92,.45);animation:ageSpin 4.4s ease-in-out infinite}
+  .age-badge span{font-family:'Lilita One',cursive;font-size:78px;line-height:1;color:#ff2e9a;text-shadow:0 3px 0 #fff,0 8px 14px rgba(0,0,0,.2)}
+  @keyframes ageSpin{0%,100%{transform:translateX(-50%) rotate(-7deg) scale(1)}50%{transform:translateX(-50%) rotate(5deg) scale(1.06)}}
 
-  .badge{position:absolute;z-index:9;width:104px;height:104px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;font-family:'Fredoka',sans-serif;font-weight:700;line-height:1.05;text-transform:uppercase;box-shadow:0 10px 24px -8px rgba(0,0,0,.5), inset 0 0 0 4px rgba(255,255,255,.35),0 0 20px rgba(255,255,255,.14);animation:floaty 6s ease-in-out infinite}
-  .badge span{font-size:11.5px;letter-spacing:.2px;padding:6px}
-  .badge.food{top:11%;left:3%;background:radial-gradient(circle at 35% 30%,#ffe48a,#ffb02e 75%);color:#7a3b00}
-  .badge.socks{top:11%;right:3%;animation-delay:1.2s;background:radial-gradient(circle at 35% 30%,#8fe3ff,#2196d8 78%);color:#06324a}
+  .title{position:absolute;top:292px;left:0;width:100%;text-align:center;z-index:10}
+  .title h1{font-family:'Lilita One',cursive;font-size:clamp(62px,12vw,104px);line-height:.88;letter-spacing:1px;color:#fff;text-transform:uppercase;transform:rotate(-3deg);text-shadow:0 0 18px rgba(255,46,154,.85),0 0 42px rgba(33,230,255,.62),0 4px 0 #b3128a,0 10px 16px rgba(0,0,0,.42)}
+  .title .disco{display:block;background:linear-gradient(180deg,#fff 0%,#ffe3f4 42%,#ffd35c 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 3px 0 #c21e8f);animation:titleGlow 2.4s ease-in-out infinite}
+  .title .party{display:block;font-size:.78em;margin-top:4px;color:#21e6ff;text-shadow:0 0 16px rgba(33,230,255,.95),0 4px 0 #0c7e96,0 8px 13px rgba(0,0,0,.45);animation:titleGlow 2.1s ease-in-out infinite reverse}
+  .subtitle{position:absolute;top:448px;width:100%;text-align:center;z-index:10;font-family:'Fredoka',sans-serif;font-size:24px;font-weight:700;color:#fff7b8;text-shadow:0 2px 10px rgba(0,0,0,.35)}
+  @keyframes titleGlow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.28)}}
+
+  .badge{position:absolute;z-index:12;width:110px;height:110px;border-radius:50%;display:flex;align-items:center;justify-content:center;text-align:center;font-family:'Fredoka',sans-serif;font-weight:700;line-height:1.05;text-transform:uppercase;box-shadow:0 10px 24px -8px rgba(0,0,0,.5),inset 0 0 0 4px rgba(255,255,255,.35),0 0 20px rgba(255,255,255,.16);animation:floaty 6s ease-in-out infinite}
+  .badge span{font-size:11.5px;letter-spacing:.2px;padding:7px}
+  .badge.food{top:198px;left:14px;background:radial-gradient(circle at 35% 30%,#ffe48a,#ffb02e 75%);color:#7a3b00}
+  .badge.socks{top:202px;right:14px;animation-delay:1.2s;background:radial-gradient(circle at 35% 30%,#8fe3ff,#2196d8 78%);color:#06324a}
   .badge.socks span small{font-size:10px;display:block;font-weight:600;opacity:.9;margin-top:2px}
   @keyframes floaty{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-9px) rotate(2deg)}}
 
-  .panel{position:absolute;left:50%;bottom:12.5%;transform:translateX(-50%);width:84%;z-index:8;background:rgba(255,250,248,.96);backdrop-filter:blur(8px);border-radius:32px;padding:30px 30px 24px;color:var(--ink);box-shadow:0 24px 50px -18px rgba(60,0,60,.6),inset 0 0 0 2px #fff,inset 0 0 0 6px #ffe0f1,0 0 20px rgba(255,255,255,.28)}
-  .panel .invited{font-family:'Fredoka',sans-serif;font-weight:700;text-align:center;font-size:clamp(18px,3.6vw,22px);color:#b3128a;margin-bottom:14px}
-  .row{display:flex;align-items:baseline;gap:10px;margin:11px 0}
-  .lab{font-family:'Fredoka',sans-serif;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.6px;color:#a05bd0;min-width:64px;flex:none}
-  .val{flex:1;font-family:'Lilita One',cursive;color:var(--ink);border-bottom:2px dotted #d9b8ec;padding-bottom:3px;font-size:clamp(19px,4vw,24px);letter-spacing:.4px}
-  .val.name{color:var(--magenta);font-size:clamp(26px,5.4vw,32px)}
+  .panel{position:absolute;left:50%;bottom:124px;transform:translateX(-50%);width:86%;z-index:20;background:linear-gradient(180deg,rgba(255,250,252,.98),rgba(255,246,251,.96));backdrop-filter:blur(8px);border-radius:34px;padding:30px 28px 24px;color:var(--ink);box-shadow:0 24px 50px -18px rgba(60,0,60,.6), inset 0 0 0 2px #fff, inset 0 0 0 6px #ffe0f1, 0 0 25px rgba(255,255,255,.28)}
+  .panel .invited{font-family:'Fredoka',sans-serif;font-weight:700;text-align:center;font-size:clamp(20px,3.6vw,25px);color:#b3128a;margin-bottom:14px}
+  .panel .mini-banner{text-align:center;font-family:'Fredoka',sans-serif;font-size:14px;font-weight:700;color:#6f38c0;margin-bottom:12px}
+  .row{display:flex;align-items:baseline;gap:10px;margin:12px 0}
+  .lab{font-family:'Fredoka',sans-serif;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.6px;color:#a05bd0;min-width:70px;flex:none}
+  .val{flex:1;font-family:'Lilita One',cursive;color:var(--ink);border-bottom:2px dotted #d9b8ec;padding-bottom:3px;font-size:clamp(21px,4vw,26px);letter-spacing:.4px}
+  .val.name{color:var(--magenta);font-size:clamp(28px,5.2vw,36px)}
   .time-row .val{display:flex;align-items:baseline;gap:8px}
   .time-row .until{font-family:'Fredoka',sans-serif;font-weight:700;font-size:13px;color:#a05bd0;text-transform:lowercase;letter-spacing:0}
-  .celebrate{text-align:center;font-family:'Fredoka',sans-serif;font-weight:700;color:#6a2fa0;margin:16px 0 10px;font-size:clamp(15px,3.1vw,18px)}
+  .celebrate{text-align:center;font-family:'Fredoka',sans-serif;font-weight:700;color:#6a2fa0;margin:18px 0 12px;font-size:clamp(16px,3vw,20px)}
   .rsvp .val{color:#0c8fb0}
 
-  .cta-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:16px}
-  .pill,.music-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:'Fredoka',sans-serif;font-weight:700;padding:12px 22px;border-radius:999px;font-size:clamp(14px,3.2vw,17px);cursor:pointer;border:none;transition:transform 0.2s,opacity 0.2s,box-shadow 0.2s;text-decoration:none}
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:18px}
+  .pill,.music-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:'Fredoka',sans-serif;font-weight:700;padding:13px 22px;border-radius:999px;font-size:clamp(14px,3.2vw,17px);cursor:pointer;border:none;transition:transform 0.2s,opacity 0.2s,box-shadow 0.2s;text-decoration:none}
   .pill{background:linear-gradient(90deg,var(--magenta),#ff6f3c);color:#fff;box-shadow:0 8px 18px -6px rgba(255,46,154,.6),0 0 18px rgba(255,46,154,.35);animation:ctaPulse 1.8s ease-in-out infinite}
   .music-btn{background:linear-gradient(90deg,var(--cyan),#3d8bff);color:#062a4a;box-shadow:0 8px 18px -6px rgba(33,230,255,.55),0 0 18px rgba(33,230,255,.3)}
   .pill:hover,.music-btn:hover{transform:scale(1.06)}
   @keyframes ctaPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
   .click-rsvp-note{text-align:center;margin-top:10px;color:#b3128a;font-family:'Fredoka',sans-serif;font-size:13px;letter-spacing:.3px}
 
-  .footer{position:absolute;bottom:1.8%;left:0;width:100%;text-align:center;z-index:8;color:#fff}
+  .dancefloor{position:absolute;left:50%;bottom:42px;transform:translateX(-50%);width:82%;height:70px;border-radius:22px;z-index:9;opacity:.9;background:linear-gradient(90deg,rgba(255,46,154,.95) 0 12.5%,rgba(33,230,255,.95) 12.5% 25%,rgba(255,211,92,.95) 25% 37.5%,rgba(141,255,107,.95) 37.5% 50%,rgba(255,123,196,.95) 50% 62.5%,rgba(255,155,69,.95) 62.5% 75%,rgba(143,245,210,.95) 75% 87.5%,rgba(122,215,255,.95) 87.5% 100%),linear-gradient(180deg,rgba(255,255,255,.25),rgba(255,255,255,.05));box-shadow:0 0 18px rgba(255,255,255,.2),0 0 34px rgba(33,230,255,.22);overflow:hidden}
+  .dancefloor::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.18) 0 2px,transparent 2px 34px),repeating-linear-gradient(180deg,rgba(255,255,255,.18) 0 2px,transparent 2px 29px);mix-blend-mode:screen}
+  .dancefloor::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);transform:translateX(-100%);animation:danceSweep 2.8s linear infinite}
+  @keyframes danceSweep{to{transform:translateX(100%)}}
+
+  .footer{position:absolute;bottom:8px;left:0;width:100%;text-align:center;z-index:20;color:#fff}
   .footer .croc{display:inline-flex;align-items:center;gap:10px;justify-content:center}
   .footer .croc .mark{width:34px;height:34px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#bdf06a,#3fae2a 75%);display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:inset 0 0 0 2px rgba(255,255,255,.5)}
-  .footer h2{font-family:'Lilita One',cursive;font-size:clamp(18px,3.8vw,22px);letter-spacing:.4px;text-shadow:0 2px 6px rgba(0,0,0,.45)}
+  .footer h2{font-family:'Lilita One',cursive;font-size:clamp(18px,3.8vw,23px);letter-spacing:.4px;text-shadow:0 2px 6px rgba(0,0,0,.45)}
   .footer p{font-family:'Nunito',sans-serif;font-weight:800;font-size:clamp(12px,2.6vw,14px);opacity:.96;margin-top:2px;text-shadow:0 1px 4px rgba(0,0,0,.4)}
-  .footer .tbc{display:none}
-
-  .balloon{position:absolute;bottom:2%;width:54px;height:66px;border-radius:50% 50% 48% 48%;z-index:7;box-shadow:inset -8px -10px 16px rgba(0,0,0,.18);animation:floaty 7s ease-in-out infinite}
-  .balloon::after{content:"";position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);border-left:6px solid transparent;border-right:6px solid transparent;border-top:9px solid currentColor}
-  .balloon.l{left:4%;background:radial-gradient(circle at 32% 26%,#ff9ecb,#ff2e9a);color:#ff2e9a}
-  .balloon.r{right:4%;background:radial-gradient(circle at 32% 26%,#9ff0ff,#21e6ff);color:#21e6ff;animation-delay:1.5s}
 
   .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(30,0,45,.76);z-index:1000;align-items:center;justify-content:center;padding:20px;font-family:'Nunito',sans-serif}
   .modal.active{display:flex}
@@ -200,19 +222,27 @@
   .spinner{border:4px solid #f3f3f3;border-top:4px solid var(--magenta);border-radius:50%;width:30px;height:30px;animation:spinFast 1s linear infinite;margin:0 auto 10px}
   @keyframes spinFast{to{transform:rotate(360deg)}}
 
-  @media (max-width: 640px){
-    body{padding:14px 8px}
-    .card{aspect-ratio:auto;min-height:980px}
-    .panel{width:90%;bottom:13%;padding:24px 20px 22px}
-    .dancefloor{width:84%;height:50px;bottom:8.4%}
+  @media (max-width: 700px){
+    body{padding:12px 6px}
+    .card{min-height:1080px}
+    .age-badge{top:172px;width:116px;height:116px}
+    .age-badge span{font-size:66px}
+    .title{top:300px}
+    .subtitle{top:450px;font-size:20px;padding:0 18px}
+    .panel{width:90%;bottom:132px;padding:24px 20px 22px}
+    .dancefloor{width:86%;height:56px;bottom:46px}
     .cta-row{flex-direction:column;align-items:center}
     .pill,.music-btn{width:100%}
-    .animal .emoji{font-size:40px}
-    .subtitle{font-size:18px;top:40.5%}
+    .animal .emoji{font-size:44px}
+    .animal.kangaroo{left:3%;bottom:190px}
+    .animal.koala{right:3%;bottom:190px}
+    .animal.unicorn{left:6%;top:360px}
+    .animal.bunny{right:6%;top:356px}
+    .badge.food{left:10px}.badge.socks{right:10px}
   }
 
   @media (prefers-reduced-motion: reduce){*{animation:none !important}}
-  @media print{html,body{height:auto;background:#fff;padding:0;margin:0}body{display:block}.card{width:148mm;height:210mm;aspect-ratio:auto;border-radius:0;box-shadow:none}*{animation:none !important}.pill,.music-btn{pointer-events:none}}
+  @media print{html,body{height:auto;background:#fff;padding:0;margin:0}body{display:block}.card{width:148mm;height:210mm;min-height:auto;border-radius:0;box-shadow:none}*{animation:none !important}.pill,.music-btn{pointer-events:none}}
 </style>
 </head>
 <body>
@@ -220,29 +250,42 @@
     <div class="stars" id="stars"></div>
     <div class="sparkles" id="sparkles"></div>
     <div class="confetti" id="confetti"></div>
+    <div class="stickers">
+      <div class="sticker s1">💖</div>
+      <div class="sticker s2">🎵</div>
+      <div class="sticker s3">🌈</div>
+      <div class="sticker s4">✨</div>
+      <div class="sticker s5">🩷</div>
+      <div class="sticker s6">🎉</div>
+      <div class="sticker s7">🪩</div>
+      <div class="sticker s8">⭐</div>
+    </div>
 
+    <div class="rainbow-arc"></div>
     <div class="light-orb one"></div>
     <div class="light-orb two"></div>
     <div class="light-orb three"></div>
-
+    <div class="light-orb four"></div>
     <div class="beams"></div>
 
     <div class="bunting">
       <svg viewBox="0 0 1040 120" preserveAspectRatio="none" aria-hidden="true">
-        <path d="M0,8 Q520,70 1040,8" stroke="rgba(255,255,255,.5)" stroke-width="3" fill="none"/>
+        <path d="M0,8 Q520,70 1040,8" stroke="rgba(255,255,255,.55)" stroke-width="3" fill="none"/>
         <g id="flags"></g>
       </svg>
     </div>
 
     <div class="animal kangaroo"><div class="emoji">🦘</div><div class="label">Dancing Roo!</div></div>
     <div class="animal koala"><div class="emoji">🐨</div><div class="label">Groovy Koala!</div></div>
-    <div class="animal duck"><div class="emoji">🪩</div><div class="label">Disco Ball!</div></div>
-    <div class="animal star"><div class="emoji">⭐</div><div class="label">Party Star!</div></div>
+    <div class="animal unicorn"><div class="emoji">🦄</div><div class="label">Party Unicorn!</div></div>
+    <div class="animal bunny"><div class="emoji">🐰</div><div class="label">Boogie Bunny!</div></div>
 
     <div class="ball-wrap">
       <div class="string"></div>
       <div class="ball"></div>
     </div>
+
+    <div class="age-badge"><span>5</span></div>
 
     <div class="title">
       <h1>
@@ -257,13 +300,14 @@
 
     <div class="panel">
       <p class="invited">You're invited to Inaaya's super fun birthday disco!</p>
+      <div class="mini-banner">🎀 Wear your brightest party outfit and come dance with us! 🎀</div>
 
       <div class="row"><span class="lab">For</span><span class="val name">Inaaya</span></div>
       <div class="row"><span class="lab">Date</span><span class="val">25 / 07 / 2026</span></div>
       <div class="row time-row"><span class="lab">Time</span><span class="val">10:00 <span class="until">until</span> 11:30</span></div>
       <div class="row"><span class="lab">Location</span><span class="val">Craigieburn</span></div>
 
-      <p class="celebrate">Come dance, play and celebrate with us!</p>
+      <p class="celebrate">Come dance, play, laugh and celebrate with us!</p>
 
       <div class="row rsvp"><span class="lab">RSVP</span><span class="val">Yanushka · 0425 441 712</span></div>
 
@@ -280,9 +324,6 @@
       <div class="croc"><span class="mark">🐊</span><h2>Croc's Playcentre Craigieburn</h2></div>
       <p>24 Riley Road, Craigieburn VIC 3064</p>
     </div>
-
-    <div class="balloon l"></div>
-    <div class="balloon r"></div>
   </div>
 
   <div class="modal" id="rsvpModal">
@@ -325,12 +366,12 @@
 <script>
   (function(){
     var s=document.getElementById('stars');
-    for(var i=0;i<46;i++){
+    for(var i=0;i<58;i++){
       var d=document.createElement('div');d.className='star';
-      var sz=Math.random()*2+1;
+      var sz=Math.random()*2.5+1;
       d.style.width=sz+'px';d.style.height=sz+'px';
       d.style.left=Math.random()*100+'%';
-      d.style.top=Math.random()*62+'%';
+      d.style.top=Math.random()*74+'%';
       d.style.animationDelay=(Math.random()*3.5)+'s';
       s.appendChild(d);
     }
@@ -338,10 +379,10 @@
 
   (function(){
     var s=document.getElementById('sparkles');
-    for(var i=0;i<24;i++){
+    for(var i=0;i<34;i++){
       var d=document.createElement('div');d.className='sparkle';
       d.style.left=Math.random()*100+'%';
-      d.style.top=(Math.random()*72)+'%';
+      d.style.top=(Math.random()*78)+'%';
       d.style.animationDelay=(Math.random()*2.8)+'s';
       s.appendChild(d);
     }
@@ -349,17 +390,17 @@
 
   (function(){
     var c=document.getElementById('confetti');
-    var cols=['#ff2e9a','#ffd35c','#21e6ff','#8dff6b','#ff7bc4','#ff8a3c','#8ff5d2'];
-    for(var i=0;i<24;i++){
+    var cols=['#ff2e9a','#ffd35c','#21e6ff','#8dff6b','#ff7bc4','#ff9b45','#8ff5d2','#7ad7ff'];
+    for(var i=0;i<38;i++){
       var d=document.createElement('div');
       d.style.position='absolute';
-      d.style.width='10px';
-      d.style.height='18px';
+      d.style.width=(Math.random()*8+6)+'px';
+      d.style.height=(Math.random()*14+10)+'px';
       d.style.left=(Math.random()*100)+'%';
-      d.style.top=(Math.random()*22)+'%';
+      d.style.top=(Math.random()*34)+'%';
       d.style.background=cols[i%cols.length];
-      d.style.opacity='.68';
-      d.style.borderRadius='3px';
+      d.style.opacity='.72';
+      d.style.borderRadius='4px';
       d.style.transform='rotate('+(Math.random()*360)+'deg)';
       d.style.boxShadow='0 0 10px rgba(255,255,255,.25)';
       c.appendChild(d);
@@ -368,14 +409,14 @@
 
   (function(){
     var g=document.getElementById('flags');
-    var cols=['#ff2e9a','#ffd35c','#21e6ff','#8dff6b','#ff7bc4','#ff8a3c'];
-    var n=16;
+    var cols=['#ff2e9a','#ffd35c','#21e6ff','#8dff6b','#ff7bc4','#ff8a3c','#7ad7ff'];
+    var n=18;
     for(var i=0;i<n;i++){
       var x=i*(1040/(n-1));
-      var y=8 + Math.sin(i/(n-1)*Math.PI)*30;
+      var y=8 + Math.sin(i/(n-1)*Math.PI)*32;
       var p=document.createElementNS('http://www.w3.org/2000/svg','path');
-      var w=30;
-      p.setAttribute('d','M'+(x-w/2)+','+y+' L'+(x+w/2)+','+y+' L'+x+','+(y+34)+' Z');
+      var w=32;
+      p.setAttribute('d','M'+(x-w/2)+','+y+' L'+(x+w/2)+','+y+' L'+x+','+(y+36)+' Z');
       p.setAttribute('fill',cols[i%cols.length]);
       p.setAttribute('stroke','rgba(0,0,0,.12)');
       p.setAttribute('stroke-width','1');
@@ -396,7 +437,7 @@
   }
 
   function showMusicHelp(){
-    alert('To add music later, upload a file like music/disco.mp3 to the repo. For now I removed the broken music player so guests do not get errors.');
+    alert('To add music later, upload a file like music/disco.mp3 to the repo. For now the button is here as a cute placeholder so guests do not see a broken player.');
   }
 
   function handleRsvpSubmit(event){
